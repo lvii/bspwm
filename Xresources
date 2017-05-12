@@ -1,0 +1,135 @@
+! vim:set et ft=xdefaults fdm=marker sw=4 sts=4 ts=4 nopaste :
+
+!! xrdb -q 命令查看当前已加载的 Xdefaults / Xresources 配置信息
+
+!! https://wiki.archlinux.org/index.php/Font_Configuration
+!! 对 "不支持" fontconfig 字体配置的程序 (LibreOffice) 指定字体渲染方式
+Xft.antialias                           : 1
+!Xft.autohint                           : 0
+Xft.hinting                             : 1
+Xft.hintstyle                           : hintslight
+!Xft.rgba                               : rgb
+!Xft.lcdfilter                          : lcddefault
+!Xft.dpi                                : 96
+!Xft.embolden                           : true
+
+!URxvt.font                             : xft:Envy Code R:pixelsize=12.5,xft:WenQuanYi Micro Hei Mono:pixelsize=12.5
+!URxvt.boldFont                         : xft:Envy Code R:bold:pixelsize=12.5,xft:WenQuanYi Micro Hei Mono:bold:pixelsize=12.5
+!URxvt.font                              : xft:Bitstream Vera Sans Mono:size=11:antialias=1:autohint=0:hinting=1:hintstyle=1, \
+URxvt.font                              : xft:Bitstream Vera Sans Mono:size=11:, xft:WenQuanYi Micro Hei Mono:size=13
+URxvt.letterSpace                       : -1
+
+!! https://wiki.archlinux.org/index.php/IBus
+URxvt.inputMethod                       : ibus
+URxvt.preeditType                       : OverTheSpot
+
+URxvt.termName                          : xterm-256color
+URxvt.geometry                          : 119x34
+URxvt.saveLines                         : 30720
+!URxvt.borderless                        : 1
+URxvt.internalBorder                    : 3
+
+URxvt.cursorBlink                       : false
+!URxvt.cursorUnderline                   : false
+!URxvt.cursorColor                       : #d6d9ba
+
+URxvt.scrollBar                         : false
+!URxvt.scrollBar_right                   : true
+!URxvt.scrollstyle                       : plain
+!URxvt.scrollColor                       : #2a2a2a
+!URxvt.secondaryScroll                   : true
+
+!! jump to bottom (prompt) on keypress
+!URxvt.scrollTtyKeypress                 : true
+!! jump to bottom (prompt) when tty gets new lines
+!URxvt.scrollWithBuffer                  : false
+!! jump to bottom (prompt) on tty output
+!URxvt.scrollTtyOutput                   : false
+
+!URxvt.keysym.Mod3-Shift-Left            : \033<RAlt-LShift-Left>
+
+! 报警 beep 声
+URxvt.urgentOnBell                      : True
+URxvt.visualBell                        : True
+!!de-iconify (map) on receipt of a bell character
+URxvt.mapAlert                          : true
+
+!! screen dump settings 屏幕快照打印
+!URxvt*print-pipe                       : cat > $(echo URxvt.dump.$(date +'%Y%M%d%H%m%S'))
+
+!! 禁止记录日志信息
+!! inhibit writing record into the system log file utmp
+!URxvt*utmpInhibit: true
+
+URxvt.perl-lib                          : /usr/lib64/urxvt/perl/
+URxvt.perl-ext-common                   : default,matcher,tabbed
+
+URxvt.tabbed.tabbar-fg                  : 7
+URxvt.tabbed.tabbar-bg                  : -1
+URxvt.tabbed.tab-fg                     : -1
+URxvt.tabbed.tab-bg                     : 7
+
+! URxvt.urlLauncher                       : /usr/bin/firefox
+! URxvt.matcher.button                    : 3
+
+!! https://ctkarch.org/documentation/tutorials/tuto.php?page=urxvt-transpa.xml
+!! REAL transparency need composite manager (xcompmgr, compton, compiz...)
+URxvt.depth                             : 32
+! URxvt*background                        : rgba:0000/0000/0000/bbbb
+! URxvt*background                        : rgba:0000/0000/0200/c800
+! !! pseudo-transparency: FAKE transparency with wallpaper
+! URxvt.transparent                       : true
+! URxvt.shading                           : 0
+! URxvt.tintColor                         : black
+
+URxvt.fading                            : 10
+
+URxvt*background                        : [80]#1a1a1a
+URxvt*foreground                        : [100]#ffffff
+
+URxvt*color0                            : #1B1D1E
+URxvt*color8                            : #505354
+URxvt*color1                            : #F92672
+URxvt*color9                            : #FF5995
+URxvt*color2                            : #82B414
+URxvt*color10                           : #B6E354
+URxvt*color3                            : #FD971F
+URxvt*color11                           : #FEED6C
+URxvt*color4                            : #56C2D6
+URxvt*color12                           : #8CEDFF
+URxvt*color5                            : #8C54FE
+URxvt*color13                           : #9E6FFE
+URxvt*color6                            : #465457
+URxvt*color14                           : #899CA1
+URxvt*color7                            : #CCCCC6
+URxvt*color15                           : #F8F8F2
+
+! !black
+! URxvt*color0                            : #252525
+! URxvt*color8                            : #404040
+! !red
+! URxvt*color1                            : #D75F5F
+! URxvt*color9                            : #EA8484
+! !green
+! URxvt*color2                            : #87AF5F
+! URxvt*color10                           : #C7F09F
+! !yellow
+! URxvt*color3                            : #FFAF5F
+! URxvt*color11                           : #FFCC9A
+! !blue
+! URxvt*color4                            : #87AFD7
+! URxvt*color12                           : #A5CAEF
+! !magenta
+! URxvt*color5                            : #8787AF
+! URxvt*color13                           : #A6A6DE
+! !cyan
+! URxvt*color6                            : #5F8787
+! URxvt*color14                           : #69B2B2
+! !white
+! URxvt*color7                            : #808080
+! URxvt*color15                           : #D7D7D7
+
+!set color for bold, italic, underlined
+URxvt*colorBD                           : color4
+URxvt*colorIT                           : color3
+URxvt*colorUL                           : color7
