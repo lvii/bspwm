@@ -25,11 +25,13 @@ xsetroot -cursor_name left_ptr &
 # hsetroot -fill wallpaper_img
 # urxvtd -q -o -f
 
-compton -cCGfF -o 0.38 -O 200 -I 200 -t 0 -l 0 -r 3 -D2 -m 0.88 &
-
 ibus-daemon --daemonize --replace --xim
 
+[ -f /usr/bin/vmware-user-suid-wrapper ] && vmware-user-suid-wrapper &
+
 [ -s "$img_wallpaper" ] && feh --bg-tile $img_wallpaper
+
+compton -b -cCG -l0 -t0 -r3 -o0.4 -m0.9 -f -D2
 
 exec bspwm
 

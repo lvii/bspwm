@@ -25,10 +25,28 @@ mkfifo "$PANEL_FIFO"
 bspc config top_padding "$PANEL_HEIGHT"
 bspc subscribe report > "$PANEL_FIFO" &
 xtitle -sf 'T%s\n' > "$PANEL_FIFO" &
+
+## datetime
 while true
 do
     date '+S%F %R'
     sleep 60s || break
+done > "$PANEL_FIFO" &
+
+## loadavg
+while true
+do
+    echo "L$(cut -d " " -f -3 /proc/loadavg)"
+    sleep 5 || break
+done > "$PANEL_FIFO" &
+
+## memory
+while true
+do
+    vmstat -s|awk '/total memory/ {mtotal=$1};
+                   /used memory/  {mused=$1};
+                   END { printf("M%d\n", (100-((mused/mtotal)*100))) }'
+    sleep 5 || break
 done > "$PANEL_FIFO" &
 
 . panel_colors

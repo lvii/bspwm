@@ -51,11 +51,20 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 
 ## compton
 
-https://wiki.archlinux.org/index.php/Compton
+命令：`compton -b -cCG -l0 -t0 -r3 -o0.4 -m0.9 -f -D2`
 
-https://github.com/yurisuika/Dotfiles/blob/master/.config/compton.conf
-
-https://github.com/neynt/dotfiles/blob/master/compton.conf
+参数 | 参数 | 释义
+---- | ---- | ----
+`-b` | `--daemon` | 后台进程
+`-c` | `--shadow` | 启用阴影效果
+`-C` | `--no-dock-shadow` | dock 及 panel 不启用阴影
+`-G` | `--no-dnd-shadow` | `drag-and-drop` 窗口不启用阴影
+`-l` | `--shadow-offset-x` | 阴影 X 座标
+`-t` | `--shadow-offset-y` | 阴影 Y 座标
+`-r` | `--shadow-radius` | 阴影模糊半径，默认 `12px`
+`-o` | `--shadow-opacity` | 阴影透明，默认 `0.75`
+`-f` | `--fading` | 启用淡出效果
+`-D` | `--fade-delta` | 淡出效果时间，默认 `10ms`
 
 壁纸预览：
 
@@ -71,6 +80,12 @@ https://github.com/neynt/dotfiles/blob/master/compton.conf
 urxvt 透明效果：
 
 ![img_urxvt_transparent_bg](https://www.dropbox.com/s/48zcmxizrjq0gfk/urxvt-with-transparent-background.png?dl=1)
+
+https://wiki.archlinux.org/index.php/Compton
+
+https://github.com/yurisuika/Dotfiles/blob/master/.config/compton.conf
+
+https://github.com/neynt/dotfiles/blob/master/compton.conf
 
 ## xcompmgr
 

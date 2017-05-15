@@ -84,7 +84,7 @@ URxvt.depth                             : 32
 
 URxvt.fading                            : 10
 
-URxvt*background                        : [80]#1a1a1a
+URxvt*background                        : [75]#1a1a1a
 URxvt*foreground                        : [100]#ffffff
 
 URxvt*color0                            : #1B1D1E
