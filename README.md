@@ -47,6 +47,11 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 
 > **Receptacles** are used for building a tree without creating windows.
 
+# lemonbar-xft
+
+    $ rpm -qf $(which vmstat)
+    procps-ng-3.3.10-13.fc26.x86_64
+
 # composite manager
 
 ## compton
