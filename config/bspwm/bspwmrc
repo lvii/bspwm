@@ -8,11 +8,15 @@ export PATH=$PATH:$DIR_PATH/panel
 sxhkd &
 panel &
 
+source $DIR_PATH/panel/xcolors
+
 bspc config focus_follows_pointer true
 
 #bspc config split_ratio         0.50
 
-bspc config border_width         2
+bspc config active_border_color  "${color['bt_blue']}"
+bspc config focused_border_color "${color['bt_green']}"
+bspc config border_width         3
 bspc config window_gap           0
 
 bspc config split_ratio          0.52
@@ -30,5 +34,7 @@ bspc monitor -d 1 2 3 4 5
 ## BUGFIX: GUI emacs start up with float mode
 ## https://github.com/baskerville/bspwm/issues/551
 bspc rule -a Emacs state=tiled
+bspc rule -a Firefox private=on
+bspc rule -a Chromium private=on
 
 ## END

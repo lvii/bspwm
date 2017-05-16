@@ -31,7 +31,7 @@ ibus-daemon --daemonize --replace --xim
 
 [ -s "$img_wallpaper" ] && feh --bg-tile $img_wallpaper
 
-compton -b -cCG -l0 -t0 -r3 -o0.4 -m0.9 -f -D2
+compton -b -cCG -l0 -t0 -r3 -o0.4 -e0.75 -m0.9 -f -D2
 
 exec bspwm
 

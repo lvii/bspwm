@@ -10,7 +10,8 @@ super + Return
 
 # program launcher
 super + @grave
-    dmenu_run
+    dmenu_run -p ' RUN ' -fn 'Bitstream Vera Sans Mono-13' -sb "#B6E354" -sf "#1B1D1E"
+    ## xrdb -q|awk '/color10:/{bg=$2}; /color0:/{fg=$2}; END { printf("-sb \"%s\" -sf \"%s\"\n", bg,fg) }'
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -43,6 +44,9 @@ super + g
 # swap parent,brother node
 super + ctrl + {p,b,comma,period}
     bspc node -s @{parent,brother,first,second}
+
+super + r
+    bspc node @focused:/ --rotate 90
 
 #
 # state/flags

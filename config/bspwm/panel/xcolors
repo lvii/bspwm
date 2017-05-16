@@ -1,0 +1,21 @@
+#!/bin/bash
+
+## reference: http://dotshare.it/dots/294/
+
+## xrdb -q|egrep "color[0-9]*:"|sort -V
+color_array=( $(xrdb -q|egrep "color[0-9]*:"|sort -V|awk '{print $2}') )
+
+index=0
+
+declare -A color
+
+for name in black red green yellow blue magenta cyan white grey bt_red bt_green bt_yellow bt_blue bt_magenta bt_cyan bt_white
+do
+    color[${name}]=${color_array[$index]}
+    ## printf "%-10s  %s\n" $name ${color[name]}
+    ((index++))
+done
+
+## ${color['green']}
+
+## END

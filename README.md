@@ -22,7 +22,11 @@ You can set and change the resources using X11 tools like `xrdb`. Many distribut
 5. `$XENVIRONMENT` file OR `$HOME/.Xdefaults-<nodename>`
 6. resources specified via `-xrm` on the commandline
 
-需要创建 `~/.Xdefaults`、`~/.Xdefaults-$HOSTNAME` 软链接指向 `~/.Xresources`
+需要创建 `~/.Xdefaults`、`~/.Xdefaults-$HOSTNAME` **软链** 接指向 `~/.Xresources` ：
+
+    $ ll ~/.Xdefaults-$HOSTNAME ~/.Xdefaults
+    lrwxrwxrwx 1 i i 11 | 2017-05-10 14:49 | /home/user/.Xdefaults -> .Xresources
+    lrwxrwxrwx 1 i i 11 | 2017-05-10 11:12 | /home/user/.Xdefaults-fedora -> .Xresources
 
 # bspwm
 
@@ -47,8 +51,18 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 
 > **Receptacles** are used for building a tree without creating windows.
 
+[Arbitrary splits without new windows? #259](https://github.com/baskerville/bspwm/issues/259)
+
 # lemonbar-xft
 
+字体：
+
+    PANEL_FONT_EN="Bitstream Vera Sans Mono-11"
+    PANEL_FONT_CN="WenQuanYi Micro Hei Mono-11"
+
+软件包：
+
+    ## free memory
     $ rpm -qf $(which vmstat)
     procps-ng-3.3.10-13.fc26.x86_64
 
@@ -56,7 +70,7 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 
 ## compton
 
-命令：`compton -b -cCG -l0 -t0 -r3 -o0.4 -m0.9 -f -D2`
+命令：`compton -b -cCG -l0 -t0 -r3 -o0.4 -e0.8 -m0.9 -f -D2`
 
 参数 | 参数 | 释义
 ---- | ---- | ----
@@ -68,6 +82,8 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 `-t` | `--shadow-offset-y` | 阴影 Y 座标
 `-r` | `--shadow-radius` | 阴影模糊半径，默认 `12px`
 `-o` | `--shadow-opacity` | 阴影透明，默认 `0.75`
+`-e` | `--frame-opacity` | 边框透明，默认 **禁用**
+`-m` | `--menu-opacity` | 菜单透明，默认 **禁用**
 `-f` | `--fading` | 启用淡出效果
 `-D` | `--fade-delta` | 淡出效果时间，默认 `10ms`
 
@@ -91,27 +107,4 @@ https://wiki.archlinux.org/index.php/Compton
 https://github.com/yurisuika/Dotfiles/blob/master/.config/compton.conf
 
 https://github.com/neynt/dotfiles/blob/master/compton.conf
-
-## xcompmgr
-
-使用 `xcompmgr` 缩放 urxvt 窗口会出现无法输入的 bug
-
-https://www.freedesktop.org/wiki/Software/xapps/
-
-apps | about
----- | -----
-`fdclock` | the Freedesktop clock (uses cairo)
-`transset` | manipulate the `_NET_WM_WINDOW_OPACITY` property
-`uncover` | demonstrates transformed windows with Composite
-`wininfo` | a window information utility for X
-`xclock` | regular xclock app with Render support
-`xcompmgr` | Sample X Compositing Manager
-`xdamage` | Test application for Damage extension
-`xditview` | What the heck is this doing here?
-`xdpyinfo` | X Display Information
-`xev` | print contents of X events
-`xrandr` | X Resize and Rotate command line app
-`xrestop` | 'top' for X resources
-
-
 
