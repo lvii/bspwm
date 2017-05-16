@@ -100,7 +100,7 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 
 urxvt 透明效果：
 
-![img_urxvt_transparent_bg](https://www.dropbox.com/s/48zcmxizrjq0gfk/urxvt-with-transparent-background.png?dl=1)
+![img_urxvt_transparent_bg](https://www.dropbox.com/s/sb5hr6u9n2ffrg2/urxvt-bg-img.png?dl=1)
 
 https://wiki.archlinux.org/index.php/Compton
 
