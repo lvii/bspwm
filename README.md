@@ -1,4 +1,13 @@
 
+# repo
+
+Fedora 26 软件包：
+
+https://copr.fedorainfracloud.org/coprs/outman/bspwm/
+
+    dnf copr enable outman/bspwm
+    dnf install -y bspwm sxhkd xdo xtitle lemonbar-xft compton
+
 # xinitrc
 
 尽量存放和 X11 相关配置
@@ -27,6 +36,10 @@ You can set and change the resources using X11 tools like `xrdb`. Many distribut
     $ ll ~/.Xdefaults-$HOSTNAME ~/.Xdefaults
     lrwxrwxrwx 1 i i 11 | 2017-05-10 14:49 | /home/user/.Xdefaults -> .Xresources
     lrwxrwxrwx 1 i i 11 | 2017-05-10 11:12 | /home/user/.Xdefaults-fedora -> .Xresources
+
+## tips
+
+`Ctrl + button2` 鼠标 **中键** 弹出 `urxvt` **设置菜单** 类似 `xterm`
 
 # bspwm
 
