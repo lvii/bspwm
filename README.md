@@ -68,16 +68,18 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 
 # lemonbar-xft
 
-字体：
+依赖的 **字体** 及 `vmstat` 命令所属 **软件包**：
 
     PANEL_FONT_EN="Bitstream Vera Sans Mono-11"
     PANEL_FONT_CN="WenQuanYi Micro Hei Mono-11"
 
-软件包：
-
     ## free memory
     $ rpm -qf $(which vmstat)
     procps-ng-3.3.10-13.fc26.x86_64
+
+安装依赖：
+
+    dnf install -y bitstream-vera-sans-mono-fonts wqy-microhei-fonts procps-ng
 
 # composite manager
 
