@@ -37,4 +37,29 @@ bspc rule -a Emacs state=tiled
 bspc rule -a Firefox private=on
 bspc rule -a Chromium private=on
 
+## autostart layout
+## https://github.com/baskerville/bspwm/blob/master/tests/node/receptacle
+## https://github.com/baskerville/bspwm/commit/e8aa679cd14fad3bdc89119c53d5c6eca6512bf0
+
+# start_monitor=$(bspc wm -d|python3 -c "import sys, json; print(json.load(sys.stdin)['monitors'][0]['name'])")
+# bspc monitor -f $start_monitor
+# bspc desktop -f 1
+
+# bspc node -i
+# #bspc node @/  -p east  -i
+# bspc node @/2 -p north -i
+
+# bspc rule -a st-256color -o node=@/1   && st -f "Bitstream Vera Sans Mono-11:antialias=1:autohint=0:hinting=1:hintstyle=1" -e tmux new -s st
+# sleep 0.5s
+# bspc rule -a Urxvt       -o node=@/2/1 && urxvt256c -e bash -c "exec tmux new -s urxvt"
+# sleep 0.5s
+# bspc rule -a Emacs       -o node=@/2/2 && emacs -Q
+
+bspc node @^1:^1:/ -i
+bspc node @^1:^1:/2 -p north -i
+
+bspc rule -a Emacs:emacs -o node=@^1:^1:/1 && emacs -Q
+bspc rule -a st-256color:st-256color -o node=@^1:^1:/2/1 && st
+bspc rule -a URxvt:urxvt256c -o node=@^1:^1:/2/2 && urxvt
+
 ## END
