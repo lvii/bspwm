@@ -48,6 +48,9 @@ super + ctrl + {p,b,comma,period}
 super + r
     bspc node @focused:/ --rotate 90
 
+super + {_,shift} + i
+    { bspc node -i; for i in $(bspc query -N -n '.leaf.!window.local'); do bspc node $i -k; done; }
+
 #
 # state/flags
 #

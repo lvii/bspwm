@@ -45,21 +45,30 @@ bspc rule -a Chromium private=on
 # bspc monitor -f $start_monitor
 # bspc desktop -f 1
 
-# bspc node -i
-# #bspc node @/  -p east  -i
-# bspc node @/2 -p north -i
+## IT WORKS ------------------------------------------------------------------
 
-# bspc rule -a st-256color -o node=@/1   && st -f "Bitstream Vera Sans Mono-11:antialias=1:autohint=0:hinting=1:hintstyle=1" -e tmux new -s st
-# sleep 0.5s
-# bspc rule -a Urxvt       -o node=@/2/1 && urxvt256c -e bash -c "exec tmux new -s urxvt"
-# sleep 0.5s
-# bspc rule -a Emacs       -o node=@/2/2 && emacs -Q
+bspc node -i
+bspc node @/2 -p north -i
 
-bspc node @^1:^1:/ -i
-bspc node @^1:^1:/2 -p north -i
+bspc rule -a st-256color -o node=@/1   && st -f "Bitstream Vera Sans Mono-11:antialias=1:autohint=0:hinting=1:hintstyle=1" -e tmux new -s st &
+bspc rule -a Urxvt       -o node=@/2/1 && urxvt256c -e bash -c "exec tmux new -s urxvt" &
+bspc rule -a Emacs       -o node=@/2/2 && emacs -Q &
 
-bspc rule -a Emacs:emacs -o node=@^1:^1:/1 && emacs -Q
-bspc rule -a st-256color:st-256color -o node=@^1:^1:/2/1 && st
-bspc rule -a URxvt:urxvt256c -o node=@^1:^1:/2/2 && urxvt
+# bspc node @^1:^1:/ -i
+# bspc node @^1:^1:/2 -p north -i
+
+# bspc rule -a Emacs:emacs -o node=@^1:^1:/1
+# bspc rule -a st-256color:st-256color -o node=@^1:^1:/2/1
+# bspc rule -a URxvt:urxvt256c -o node=@^1:^1:/2/2
+
+## IT WORKS ------------------------------------------------------------------
+
+# bspc wm -l ~/layout.json
+
+# bspc rule -a Emacs:emacs -o node=@^1:^1:/1 && emacs -Q &
+# bspc rule -a st-256color:st-256color -o node=@^1:^1:/2/1 && st &
+# bspc rule -a URxvt:urxvt256c -o node=@^1:^1:/2/2 && urxvt &
+
+# { bspc node -i; for i in $(bspc query -N -n '.leaf.!window.local'); do bspc node $i -k; done; }
 
 ## END
