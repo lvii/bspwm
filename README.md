@@ -110,12 +110,12 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 
     img_wallpaper=~/.bg.gif
     img_url="https://www.dropbox.com/s/6ybjv48tct5ing2/tile-random-pixel.gif?dl=1"
-    curl -m 8 -Ss -x socks5h://127.0.0.1:9090 -L "$img_url" \
-         -o $img_wallpaper && feh --bg-tile $img_wallpaper
+    curl -m 8 -Ss -x socks5h://127.0.0.1:9090 -L "$img_url" -o $img_wallpaper && \
+    feh --bg-tile $img_wallpaper
 
 urxvt 透明效果：
 
-![img_urxvt_transparent_bg](https://www.dropbox.com/s/sb5hr6u9n2ffrg2/urxvt-bg-img.png?dl=1)
+![img_urxvt_transparent_bg](https://www.dropbox.com/s/5ksbtgsxy7p2o6o/urxvt-bg-img.png?dl=1)
 
 https://wiki.archlinux.org/index.php/Compton
 

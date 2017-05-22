@@ -4,7 +4,6 @@ img_wallpaper=~/.bg.gif
 usr_resources=~/.Xresources
 sys_resources=/etc/X11/xinit/Xresources
 
-
 # [ -s "$sysresources" ] && xrdb -merge "$sysresources"
 # [ -s "$usrresources" ] && xrdb -merge "$usrresources"
 
