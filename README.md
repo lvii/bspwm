@@ -66,6 +66,12 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 
 [Arbitrary splits without new windows? #259](https://github.com/baskerville/bspwm/issues/259)
 
+TODO: `urxvt` 通过 `tmux` 自动启动的程序退出会导致 `tmux` 和 `urxvt` 同时退出
+
+    set-option -g detach-on-destroy off
+
+上面选项可以避免 `tmux` 和 `urxvt` 退出。此时 `urxvt` 中的 `tmux` 会 `attach` 其他 `tmux` 会话
+
 # lemonbar-xft
 
 依赖的 **字体** 及 `vmstat` 命令所属 **软件包**：

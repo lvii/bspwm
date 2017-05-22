@@ -48,6 +48,21 @@ URxvt.scrollBar                         : false
 
 !URxvt.keysym.Mod3-Shift-Left            : \033<RAlt-LShift-Left>
 
+!! http://stackoverflow.com/questions/39884093/rebinding-copy-paste-in-urxvt
+!! Disable ISO 14755 unicode input so we can use Ctrl-Shift bindings
+URxvt.iso14755                          : false
+URxvt.iso14755_52                       : false
+
+! !! Disable 'Ctrl-Alt-c' & 'Ctrl-Alt-v' bindings (optional)
+! URxvt.keysym.C-M-c                      : builtin-string:
+! URxvt.keysym.C-M-v                      : builtin-string:
+
+!! 'C-S-C' and 'C-S-V' last char must be UPPERCASE, or Urxvt recognized it as 'Ctrl-c' + 'Shift'
+URxvt.keysym.C-S-C                      : eval:selection_to_clipboard
+URxvt.keysym.C-S-V                      : eval:paste_clipboard
+! URxvt.keysym.C-S-0x43                   : eval:selection_to_clipboard
+! URxvt.keysym.C-S-0x56                   : eval:paste_clipboard
+
 ! 报警 beep 声
 URxvt.urgentOnBell                      : True
 URxvt.visualBell                        : True
