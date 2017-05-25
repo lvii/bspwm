@@ -63,7 +63,7 @@ bspc rule -a Emacs          -o node=@^1:^1:/2/2
 firefox &
 emacs &
 sleep 2
-gnome-terminal --hide-menubar -e "tmux -2u new -s terminal sslocal -c ~/ss.json" &
+gnome-terminal --hide-menubar -- tmux -2u new -s terminal sslocal -c ~/ss.json &
 
 sleep 2
 bspc node @^1:^1:/1   -z right  82 0  ## Firefox default tiled width: 1920/2 - 6 = 954 + 82 = 1036
