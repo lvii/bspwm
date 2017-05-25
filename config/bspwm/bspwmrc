@@ -55,14 +55,15 @@ bspc rule -a Chromium private=on
 bspc node -i
 bspc node @/2 -p north -i
 
-bspc rule -a Firefox -o node=@^1:^1:/1
-bspc rule -a Urxvt   -o node=@^1:^1:/2/1
-bspc rule -a Emacs   -o node=@^1:^1:/2/2
+bspc rule -a Firefox        -o node=@^1:^1:/1
+#bspc rule -a Urxvt         -o node=@^1:^1:/2/1
+bspc rule -a Gnome-terminal -o node=@^1:^1:/2/1
+bspc rule -a Emacs          -o node=@^1:^1:/2/2
 
 firefox &
 emacs &
 sleep 2
-urxvt256c -e tmux -2u new -s urxvt sslocal -c ~/ss.json &
+gnome-terminal --hide-menubar -e "tmux -2u new -s terminal sslocal -c ~/ss.json" &
 
 sleep 2
 bspc node @^1:^1:/1   -z right  82 0  ## Firefox default tiled width: 1920/2 - 6 = 954 + 82 = 1036

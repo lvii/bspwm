@@ -4,9 +4,10 @@
 
 # terminal emulator
 super + Return
-    urxvt256c
-    #urxvt256c -pe tabbed
+    gnome-terminal --hide-menubar
     #st -f "Bitstream Vera Sans Mono-11:antialias=1:autohint=0:hinting=1:hintstyle=1"
+    #urxvt256c
+    #urxvt256c -pe tabbed
 
 # program launcher
 super + @grave

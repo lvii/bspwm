@@ -18,6 +18,38 @@ https://wiki.archlinux.org/index.php/Xinit
 
 https://wiki.archlinux.org/index.php/Xprofile
 
+# gnome-terminal
+
+缩小 gnome-terminal 标签页高度：
+
+    $ cat ~/.config/gtk-3.0/gtk.css
+    /*
+     * Decrease the tabs bar height in gnome-terminal
+     * See:
+     * https://stackoverflow.com/questions/36869701/decrease-the-tabs-bar-height-in-gnome-terminal
+     */
+    terminal-window notebook > header.top button {
+      background-image: none;
+      border: 0 0 0 0;
+      margin: 0 0 0 0;
+      padding: 0 10;
+    }
+    terminal-window notebook > header.top > tabs > tab {
+      border: 0 0 0 0;
+      margin: 0 0 0 0;
+      padding: 0 0 0 0;
+    }
+    terminal-window notebook > header.top > tabs > tab label {
+      border: 0 0 0 0;
+      padding: 0 0 0 0;
+      margin: 0 0 0 0;
+    }
+
+修改 `sxhkdrc` 快捷键：
+
+    super + Return
+        gnome-terminal --hide-menubar
+
 # urxvt
 
 配置文件 **匹配顺序** `man urxvt` 手册：
