@@ -85,6 +85,8 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 ---- | ----
 `bspc node @focused:/ --rotate 90` | **顺时针** 切换布局
 `bspc node -i` | 创建 Receptacle
+`bspc node @/2 -g hidden` | 隐藏节点
+`bspc node -s @/2` | 互换节点
 
 ## feature
 

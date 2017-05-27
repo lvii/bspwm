@@ -42,16 +42,6 @@ super + y
 super + g
     bspc node -s biggest
 
-# swap parent,brother node
-super + ctrl + {p,b,comma,period}
-    bspc node -s @{parent,brother,first,second}
-
-super + r
-    bspc node @focused:/ --rotate 90
-
-super + {_,shift} + i
-    { bspc node -i; for i in $(bspc query -N -n '.leaf.!window.local'); do bspc node $i -k; done; }
-
 #
 # state/flags
 #
@@ -86,8 +76,7 @@ super + bracket{left,right}
 
 # focus the last node/desktop
 super + Tab
-    bspc node -f last
-    #bspc {node,desktop} -f last.local
+    bspc {node,desktop} -f last.local
 
 # focus the older or newer node in the focus history
 super + {o,i}
@@ -159,3 +148,23 @@ super + !button{1,2,3}
 
 super + @button{1,2,3}
     bspc pointer -u
+
+## customize
+## ---------
+
+# swap parent,brother node
+super + ctrl + {p,b,comma,period}
+    bspc node -s @{parent,brother,first,second}
+
+super + r
+    bspc node @focused:/ --rotate 90
+
+super + {_,shift} + i
+    { bspc node -i; for i in $(bspc query -N -n '.leaf.!window.local'); do bspc node $i -k; done; }
+
+alt + Tab
+    bspc node -f last
+
+## alt + {_,shift} + minus
+super + {_,shift} + minus
+    bspc node { ,$(bspc query -N -d -n .hidden|head -n 1)} -g hidden
