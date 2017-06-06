@@ -7,9 +7,6 @@ sys_resources=/etc/X11/xinit/Xresources
 # [ -s "$sysresources" ] && xrdb -merge "$sysresources"
 # [ -s "$usrresources" ] && xrdb -merge "$usrresources"
 
-## Fedora: /etc/X11/xinit/xinitrc
-source /etc/X11/xinit/xinitrc-common
-
 # xset +fp /usr/share/fonts/local &
 # xset +fp /usr/share/fonts/misc &
 # xset +fp ~/.fonts &
@@ -23,6 +20,16 @@ source /etc/X11/xinit/xinitrc-common
 xsetroot -cursor_name left_ptr &
 # hsetroot -fill wallpaper_img
 # urxvtd -q -o -f
+
+## Fedora: /etc/X11/xinit/xinitrc
+source /etc/X11/xinit/xinitrc-common
+
+# $ echo $XMODIFIERS $GTK_IM_MODULE $QT_IM_MODULE
+# @im=none gtk-im-context-simple xim
+
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
 
 ibus-daemon --daemonize --replace --xim
 

@@ -67,6 +67,7 @@ gnome-terminal --hide-menubar -- tmux -2u new -s terminal sslocal -c ~/ss.json &
 
 sleep 2
 bspc node @^1:^1:/1   -z right  82 0  ## Firefox default tiled width: 1920/2 - 6 = 954 + 82 = 1036
+
 sleep 8
 bspc node @^1:^1:/2/1 -z bottom 0 -45 ## Emacs add 45px height
 

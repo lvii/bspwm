@@ -1,11 +1,59 @@
 
-# repo
+# Fedora
 
-Fedora 26 软件包：
+Fedora 26 vmware VM 软件包：
+
+    PKGS=$(echo 'bash-completion
+    git
+    keychain
+    rsync
+    tree
+    tmux
+    wget
+    figlet
+    bzip2
+    unzip
+    unar
+    xz
+    fping
+    iftop
+    iotop
+    ethtool
+    telnet
+    nmap-ncat
+    virt-what
+    xorg-x11-server-Xorg
+    xorg-x11-xinit
+    xorg-x11-drv-evdev
+    xorg-x11-drv-libinput
+    xorg-x11-drv-synaptics
+    xorg-x11-drv-vmware
+    mesa-dri-drivers
+    open-vm-tools
+    open-vm-tools-desktop
+    feh
+    scrot
+    dmenu
+    st
+    bitstream-vera-sans-mono-fonts
+    liberation-mono-fonts
+    wqy-microhei-fonts
+    emacs
+    firefox
+    gnome-terminal
+    ibus-libpinyin
+    im-chooser
+    python3-shadowsocks
+    tigervnc'|tr '\n' ' ')
+
+    dnf install -y $PKG
+
+    ls -lh /etc/fonts/conf.d/57-dejavu-sans-mono.conf
+    rm -fv /etc/fonts/conf.d/57-dejavu-sans-mono.conf
 
 https://copr.fedorainfracloud.org/coprs/outman/bspwm/
 
-    dnf copr enable outman/bspwm
+    dnf copr enable -y outman/bspwm
     dnf install -y bspwm sxhkd xdo xtitle lemonbar-xft compton
 
 # xinitrc

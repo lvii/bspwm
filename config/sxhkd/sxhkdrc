@@ -132,21 +132,12 @@ super + {Left,Down,Up,Right}
 ~button1
     bspc pointer -g focus
 
-# # start move/resize
-# super + button{1-3}
-#     bspc pointer -g {move,resize_side,resize_corner}
-
-# # end move/resize
-# super + @button{1-3}
-#     bspc pointer -u
-
-super + button{1,2,3}
+# start move/resize
+super + button{1-3}
     bspc pointer -g {move,resize_side,resize_corner}
 
-super + !button{1,2,3}
-    bspc pointer --track %i %i
-
-super + @button{1,2,3}
+# end move/resize
+super + @button{1-3}
     bspc pointer -u
 
 ## customize
