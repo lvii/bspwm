@@ -56,13 +56,15 @@ bspc node -i
 bspc node @/2 -p north -i
 
 bspc rule -a Firefox        -o node=@^1:^1:/1
-#bspc rule -a Urxvt         -o node=@^1:^1:/2/1
+#bspc rule -a Urxvt          -o node=@^1:^1:/2/1
 bspc rule -a Gnome-terminal -o node=@^1:^1:/2/1
+#bspc rule -a konsole        -o node=@^1:^1:/2/1
 bspc rule -a Emacs          -o node=@^1:^1:/2/2
 
 firefox &
 emacs &
 sleep 2
+#konsole --hide-menubar -e 'tmux -2u new -s terminal sslocal -c ~/ss.json' &
 gnome-terminal --hide-menubar -- tmux -2u new -s terminal sslocal -c ~/ss.json &
 
 sleep 2
