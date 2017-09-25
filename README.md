@@ -32,7 +32,6 @@ Fedora 26 vmware VM 软件包：
     open-vm-tools
     open-vm-tools-desktop
     feh
-    scrot
     dmenu
     st
     bitstream-vera-sans-mono-fonts
@@ -41,6 +40,7 @@ Fedora 26 vmware VM 软件包：
     emacs
     firefox
     gnome-terminal
+    gnome-screenshot
     ibus-libpinyin
     im-chooser
     python3-shadowsocks
@@ -68,6 +68,42 @@ https://wiki.archlinux.org/index.php/Xprofile
 
 # gnome-terminal
 
+禁用光标闪烁：
+
+    _uuid=$(gsettings get org.gnome.Terminal.ProfilesList default|sed "s/'//g")
+
+    gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ cursor-blink-mode
+
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ cursor-blink-mode 'off'
+
+自定义 Dark Pastels 主题：
+
+    gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ palette
+
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ palette "['rgb(63,63,63)', 'rgb(112,80,80)', 'rgb(96,180,138)', 'rgb(223,175,143)', 'rgb(154,184,215)', 'rgb(220,140,195)', 'rgb(140,208,211)', 'rgb(220,220,204)', 'rgb(112,144,128)', 'rgb(220,163,163)', 'rgb(114,213,163)', 'rgb(240,223,175)', 'rgb(148,191,243)', 'rgb(236,147,211)', 'rgb(147,224,227)', 'rgb(255,255,255)']"
+
+背景透明：
+
+    gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ background-transparency-percent
+
+    dconf write /org/gnome/terminal/legacy/profiles:/:${_uuid}/background-transparency-percent 8
+
+快捷键：
+
+    $ gsettings get org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/ help
+    'F1'
+
+    gsettings set org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/ help ""
+
+递归遍历所有配置项：
+
+    gsettings list-recursively | grep Terminal.Legacy.Keybindings
+
+修改 `sxhkdrc` 快捷键对应的命令：
+
+    super + Return
+        gnome-terminal --hide-menubar
+
 缩小 gnome-terminal 标签页高度：
 
     $ cat ~/.config/gtk-3.0/gtk.css
@@ -93,10 +129,10 @@ https://wiki.archlinux.org/index.php/Xprofile
       margin: 0 0 0 0;
     }
 
-修改 `sxhkdrc` 快捷键：
 
-    super + Return
-        gnome-terminal --hide-menubar
+# gnome-screenshot
+
+    gnome-screenshot -a -e shadow -f img.png
 
 # urxvt
 

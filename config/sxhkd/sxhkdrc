@@ -77,7 +77,7 @@ super + bracket{left,right}
 
 # focus the last node/desktop
 super + Tab
-    bspc {node,desktop} -f last.local
+    bspc desktop -f last.local
 
 # focus the older or newer node in the focus history
 super + {o,i}
@@ -155,7 +155,7 @@ super + {_,shift} + i
     { bspc node -i; for i in $(bspc query -N -n '.leaf.!window.local'); do bspc node $i -k; done; }
 
 alt + Tab
-    bspc node -f last
+    bspc node -f last.local
 
 ## alt + {_,shift} + minus
 super + {_,shift} + minus
