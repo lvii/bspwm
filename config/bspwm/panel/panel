@@ -7,8 +7,8 @@
 PANEL_HEIGHT=24
 PANEL_FIFO=/tmp/panel-fifo
 PANEL_WM_NAME=bspwm_panel
-PANEL_FONT_EN="Bitstream Vera Sans Mono-11"
-PANEL_FONT_CN="WenQuanYi Micro Hei Mono-11"
+PANEL_FONT_EN="Bitstream Vera Sans Mono-12"
+PANEL_FONT_CN="WenQuanYi Micro Hei Mono-12"
 
 export PANEL_FIFO PANEL_HEIGHT PANEL_FONT PANEL_WM_NAME
 

@@ -157,6 +157,24 @@ You can set and change the resources using X11 tools like `xrdb`. Many distribut
 
 `Ctrl + button2` 鼠标 **中键** 弹出 `urxvt` **设置菜单** 类似 `xterm`
 
+# sxhkd
+
+    $ xmodmap
+    xmodmap:  up to 4 keys per modifier, (keycodes in parentheses):
+
+    shift       Shift_L (0x32),  Shift_R (0x3e)
+    lock        Caps_Lock (0x42)
+    control     Control_L (0x25),  Control_R (0x69)
+    mod1        Alt_L (0x40),  Alt_R (0x6c),  Meta_L (0xcd)
+    mod2        Num_Lock (0x4d)
+    mod3
+    mod4        Super_L (0x85),  Super_R (0x86),  Super_L (0xce),  Hyper_L (0xcf)
+    mod5        ISO_Level3_Shift (0x5c),  Mode_switch (0xcb)
+
+`bspwmrc` 配置 `pointer_modifier` 键：
+
+    bspc config pointer_modifier mod4
+
 # bspwm
 
 https://github.com/baskerville/bspwm/blob/master/examples/sxhkdrc
