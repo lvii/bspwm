@@ -18,6 +18,7 @@ Fedora 26 vmware VM 软件包：
     fping
     iftop
     iotop
+    atop
     ethtool
     telnet
     nmap-ncat
@@ -48,9 +49,6 @@ Fedora 26 vmware VM 软件包：
 
     dnf install -y $PKG
 
-    ls -lh /etc/fonts/conf.d/57-dejavu-sans-mono.conf
-    rm -fv /etc/fonts/conf.d/57-dejavu-sans-mono.conf
-
 https://copr.fedorainfracloud.org/coprs/outman/bspwm/
 
     dnf copr enable -y outman/bspwm
@@ -66,15 +64,136 @@ https://wiki.archlinux.org/index.php/Xinit
 
 https://wiki.archlinux.org/index.php/Xprofile
 
+    yum install xorg-x11-xinit-session
+
+    # rpm -qi xorg-x11-xinit-session|grep '^Summary'
+    Summary     : Display manager support for ~/.xsession and ~/.Xclients
+
+# font
+
+    $ head -15 ~/.Xresources
+    !! xrdb -q 命令查看当前已加载的 Xdefaults / Xresources 配置信息
+    !! https://wiki.archlinux.org/index.php/Font_Configuration
+    !! 对 "不支持" fontconfig 字体配置的程序 (LibreOffice) 指定字体渲染方式
+    Xft.antialias                           : 1
+    Xft.hinting                             : 1
+    Xft.hintstyle                           : hintslight
+    !Xft.autohint                           : 0
+    !Xft.rgba                               : rgb
+    !Xft.lcdfilter                          : lcddefault
+    !Xft.dpi                                : 96
+    !Xft.embolden                           : true
+
+禁止 `"DejaVu Sans Mono` 替换 `Bitstream Vera Sans Mono` 字体：
+
+    $ cat ~/.config/fontconfig/fonts.conf
+    <?xml version='1.0'?>
+    <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+    <fontconfig>
+      <match target="font">
+        <edit mode="assign" name="hinting">
+          <bool>true</bool>
+        </edit>
+      </match>
+      <match target="font">
+        <edit mode="assign" name="hintstyle">
+          <const>hintslight</const>
+        </edit>
+      </match>
+      <match target="font">
+        <edit mode="assign" name="antialias">
+          <bool>true</bool>
+        </edit>
+      </match>
+      <match target="font">
+        <edit mode="assign" name="lcdfilter">
+          <const>lcddefault</const>
+        </edit>
+      </match>
+      <alias binding="same">
+        <family>DejaVu Sans Mono</family>
+        <accept>
+          <family>Bitstream Vera Sans Mono</family>
+        </accept>
+      </alias>
+      <alias>
+        <family>Bitstream Vera Sans Mono</family>
+        <default>
+          <family>monospace</family>
+        </default>
+      </alias>
+      <alias>
+        <family>monospace</family>
+        <prefer>
+          <family>Bitstream Vera Sans Mono</family>
+          <family>DejaVu Sans Mono</family>
+        </prefer>
+      </alias>
+      <alias>
+        <family>Courier</family>
+        <prefer>
+          <family>Bitstream Vera Sans Mono</family>
+          <family>DejaVu Sans Mono</family>
+        </prefer>
+      </alias>
+    </fontconfig>
+
+删除并修改相关配置：
+
+    ls -lh /etc/fonts/conf.d/57-dejavu-sans-mono.conf
+    rm -fv /etc/fonts/conf.d/57-dejavu-sans-mono.conf
+
+    # cp -iv /usr/share/fontconfig/conf.avail/57-dejavu-sans-mono.conf{,.ori}
+
+    # diff /usr/share/fontconfig/conf.avail/57-dejavu-sans-mono.conf{,.ori}
+    18a19,30
+    >     <family>Bitstream Prima Sans Mono</family>
+    >     <accept>
+    >       <family>DejaVu Sans Mono</family>
+    >     </accept>
+    >   </alias>
+    >   <alias binding="same">
+    >     <family>Bitstream Vera Sans Mono</family>
+    >     <accept>
+    >       <family>DejaVu Sans Mono</family>
+    >     </accept>
+    >   </alias>
+    >   <alias binding="same">
+
+    $ fc-match monospace
+    VeraMono.ttf: "Bitstream Vera Sans Mono" "Roman"
+
+    $ fc-match sans -s | head -n5
+    DejaVuSans.ttf: "DejaVu Sans" "Book"
+    DejaVuSans-Bold.ttf: "DejaVu Sans" "Bold"
+    DejaVuSans-Oblique.ttf: "DejaVu Sans" "Oblique"
+    DejaVuSans-BoldOblique.ttf: "DejaVu Sans" "Bold Oblique"
+    NimbusSans-Regular.otf: "Nimbus Sans" "Regular"
+
+    $ fc-match mono -s | head -n5
+    VeraMono.ttf: "Bitstream Vera Sans Mono" "Roman"
+    DejaVuSansMono.ttf: "DejaVu Sans Mono" "Book"
+    DejaVuSansMono-Bold.ttf: "DejaVu Sans Mono" "Bold"
+    DejaVuSansMono-Oblique.ttf: "DejaVu Sans Mono" "Oblique"
+    NimbusMonoPS-Regular.otf: "Nimbus Mono PS" "Regular"
+
 # gnome-terminal
 
 禁用光标闪烁：
 
     _uuid=$(gsettings get org.gnome.Terminal.ProfilesList default|sed "s/'//g")
 
-    gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ cursor-blink-mode
+    $ gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ cursor-blink-mode
+    'on'
 
     gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ cursor-blink-mode 'off'
+
+关闭滚动条：
+
+    $ gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ scrollbar-policy
+    'always'
+
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ scrollbar-policy never
 
 自定义 Dark Pastels 主题：
 
@@ -82,11 +201,29 @@ https://wiki.archlinux.org/index.php/Xprofile
 
     gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ palette "['rgb(63,63,63)', 'rgb(112,80,80)', 'rgb(96,180,138)', 'rgb(223,175,143)', 'rgb(154,184,215)', 'rgb(220,140,195)', 'rgb(140,208,211)', 'rgb(220,220,204)', 'rgb(112,144,128)', 'rgb(220,163,163)', 'rgb(114,213,163)', 'rgb(240,223,175)', 'rgb(148,191,243)', 'rgb(236,147,211)', 'rgb(147,224,227)', 'rgb(255,255,255)']"
 
+修改背景色：
+
+    $ gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ use-theme-colors
+    true
+
+    gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ use-theme-colors
+    gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ background-color
+
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ use-theme-colors false
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ background-color 'rgb(44,44,44)'
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ background-color 'rgb(36,36,36)'
+
 背景透明：
 
-    gsettings get org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ background-transparency-percent
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ use-transparent-background true
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ background-transparency-percent 8
 
     dconf write /org/gnome/terminal/legacy/profiles:/:${_uuid}/background-transparency-percent 8
+
+自定义字体：
+
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ use-system-font false
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ 'Bitstream Vera Sans Mono 11.5'
 
 快捷键：
 
@@ -104,7 +241,33 @@ https://wiki.archlinux.org/index.php/Xprofile
     super + Return
         gnome-terminal --hide-menubar
 
+查看所有自定义配置：
+
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ visible-name default
+
+    $ dconf dump /org/gnome/terminal/legacy/profiles:/
+    [:]
+    cursor-blink-mode='off'
+
+    [/]
+    list=['b1dcc9dd-5262-4d8d-a863-c897e6d979b9']
+    default='b1dcc9dd-5262-4d8d-a863-c897e6d979b9'
+
+    [:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+    visible-name='default'
+    palette=['rgb(63,63,63)', 'rgb(112,80,80)', 'rgb(96,180,138)', 'rgb(223,175,143)', 'rgb(154,184,215)', 'rgb(220,140,195)', 'rgb(140,208,211)', 'rgb(220,220,204)', 'rgb(112,144,128)', 'rgb(220,163,163)', 'rgb(114,213,163)', 'rgb(240,223,175)', 'rgb(148,191,243)', 'rgb(236,147,211)', 'rgb(147,224,227)', 'rgb(255,255,255)']
+    use-system-font=false
+    use-transparent-background=true
+    use-theme-colors=false
+    font='Bitstream Vera Sans Mono 11.5'
+    cursor-blink-mode='off'
+    background-color='rgb(44,44,44)'
+    background-transparency-percent=8
+    scrollbar-policy='never'
+
 缩小 gnome-terminal 标签页高度：
+
+https://developer.gnome.org/gtk3/stable/chap-css-overview.html
 
     $ cat ~/.config/gtk-3.0/gtk.css
     /*
@@ -112,6 +275,10 @@ https://wiki.archlinux.org/index.php/Xprofile
      * See:
      * https://stackoverflow.com/questions/36869701/decrease-the-tabs-bar-height-in-gnome-terminal
      */
+
+    terminal-window notebook > header.top {
+      background-color: #2c2c2c;
+    }
     terminal-window notebook > header.top button {
       background-image: none;
       border: 0 0 0 0;
@@ -122,13 +289,16 @@ https://wiki.archlinux.org/index.php/Xprofile
       border: 0 0 0 0;
       margin: 0 0 0 0;
       padding: 0 0 0 0;
-    }
+   }
     terminal-window notebook > header.top > tabs > tab label {
       border: 0 0 0 0;
       padding: 0 0 0 0;
       margin: 0 0 0 0;
     }
 
+https://gist.github.com/drmats/564170a63f9ad693366ecb7e91ac456c
+
+https://heartbeats.jp/hbblog/2018/01/archlinuxpc.html
 
 # gnome-screenshot
 
@@ -212,8 +382,8 @@ TODO: `urxvt` 通过 `tmux` 自动启动的程序退出会导致 `tmux` 和 `urx
 
 依赖的 **字体** 及 `vmstat` 命令所属 **软件包**：
 
-    PANEL_FONT_EN="Bitstream Vera Sans Mono-11"
-    PANEL_FONT_CN="WenQuanYi Micro Hei Mono-11"
+    PANEL_FONT_EN="Bitstream Vera Sans Mono-12"
+    PANEL_FONT_CN="WenQuanYi Micro Hei Mono-12"
 
     ## free memory
     $ rpm -qf $(which vmstat)
@@ -264,4 +434,3 @@ https://wiki.archlinux.org/index.php/Compton
 https://github.com/yurisuika/Dotfiles/blob/master/.config/compton.conf
 
 https://github.com/neynt/dotfiles/blob/master/compton.conf
-

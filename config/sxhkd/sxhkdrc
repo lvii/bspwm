@@ -27,7 +27,7 @@ super + Escape
 
 # quit bspwm normally
 super + alt + Escape
-    pkill -x panel; bspc quit
+    pkill -x panel; rm -f /tmp/xprofile.lock; bspc quit
 
 # close and kill
 super + {_,shift + }w
@@ -157,7 +157,7 @@ super + ctrl + {p,b,comma,period}
 #    bspc node @focused:/ --rotate 90
 
 super + {_, shift +} r
-    bspc node @/ -R {+,-}90
+    bspc node @focused:/ --rotate {+,-}90
 
 super + {_,shift} + i
     { bspc node -i; for i in $(bspc query -N -n '.leaf.!window.local'); do bspc node $i -k; done; }
@@ -165,6 +165,5 @@ super + {_,shift} + i
 alt + Tab
     bspc node -f last.local
 
-## alt + {_,shift} + minus
 super + {_,shift} + minus
     bspc node { ,$(bspc query -N -d -n .hidden|head -n 1)} -g hidden

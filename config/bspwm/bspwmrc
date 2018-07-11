@@ -5,9 +5,11 @@ DIR_PATH=$(dirname "$ABS_PATH")
 
 export PATH=$PATH:$DIR_PATH/panel
 
-## https://wiki.archlinux.org/index.php/xprofile
-[ -f $HOME/.xprofile ] && source $HOME/.xprofile
-## ---------------------------------------------
+# https://wiki.archlinux.org/index.php/xprofile
+[ -f /tmp/xprofile.lock ] || { [ -f $HOME/.xprofile ] && source $HOME/.xprofile; }
+
+# DATETIME=$(date -d now +%s)
+# [ "$DATETIME" -gt "$(date -d $(cat /tmp/bspwm.xprofile) +%s" ]
 
 sxhkd &
 panel &
@@ -23,6 +25,17 @@ bspc config borderless_monocle             true
 bspc config gapless_monocle                true
 bspc config focus_follows_pointer          true
 bspc config pointer_modifier               mod4
+# https://github.com/baskerville/bspwm/issues/678
+bspc config pointer_action1                move
+bspc config pointer_action2                resize_side
+bspc config pointer_action3                resize_corner
+#bspc config click_to_focus                 none
+
+# man bspc
+# pointer_modifier
+#     Keyboard modifier used for moving or resizing windows. Accept the following values: shift, control, lock, mod1, mod2, mod3, mod4, mod5.
+# pointer_action1, pointer_action2, pointer_action3
+#     Action performed when pressing pointer_modifier + button<n>. Accept the following values: move, resize_side, resize_corner, focus, none.
 
 bspc monitor -d 1 2 3 4 5
 
@@ -53,26 +66,29 @@ bspc rule -a Chromium private=on
 
 ## IT WORKS ------------------------------------------------------------------
 
-#bspc node -i
-#bspc node @/2 -p north -i
+# bspc node -i
+# bspc node @/2 -p north -i
 
-#bspc rule -a Firefox        -o node=@^1:^1:/1
-##bspc rule -a Urxvt          -o node=@^1:^1:/2/1
-#bspc rule -a Gnome-terminal -o node=@^1:^1:/2/1
-##bspc rule -a konsole        -o node=@^1:^1:/2/1
-#bspc rule -a Emacs          -o node=@^1:^1:/2/2
+# bspc rule -a Firefox        -o node=@^1:^1:/1
 
-#firefox &
-#/usr/bin/emacs &
-#sleep 2
-##konsole --hide-menubar -e 'tmux -2u new -s terminal sslocal -c ~/ss.json' &
-#gnome-terminal --hide-menubar -- tmux -2u new -s terminal sslocal -c ~/ss.json &
+# bspc rule -a Gnome-terminal -o node=@^1:^1:/2/1
+# #bspc rule -a Urxvt          -o node=@^1:^1:/2/1
+# #bspc rule -a konsole        -o node=@^1:^1:/2/1
 
-#sleep 2
-#bspc node @^1:^1:/1   -z right  82 0  ## Firefox default tiled width: 1920/2 - 6 = 954 + 82 = 1036
+# bspc rule -a Emacs          -o node=@^1:^1:/2/2
 
-#sleep 8
-#bspc node @^1:^1:/2/1 -z bottom 0 -45 ## Emacs add 45px height
+# firefox &
+# /bin/emacs & # emacs has 'alias' NEED full abosult path
+
+# sleep 2
+# gnome-terminal --hide-menubar -- tmux -2u new -s terminal ss-local -v -c ~/ss/ss.json &
+# #konsole --hide-menubar -e 'tmux -2u new -s terminal ss-local -v -c ~/ss/ss.json' &
+
+# sleep 2
+# bspc node @^1:^1:/1   -z right  82 0  ## Firefox default tiled width: 1920/2 - 6 = 954 + 82 = 1036
+
+# sleep 8
+# bspc node @^1:^1:/2/1 -z bottom 0 -45 ## Emacs add 45px height
 
 ## Test ------------------------------------------------------------------
 
