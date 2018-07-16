@@ -27,7 +27,7 @@ super + Escape
 
 # quit bspwm normally
 super + alt + Escape
-    pkill -x panel; rm -f /tmp/xprofile.lock; bspc quit
+    pkill -x panel; rm -f /tmp/xprofile.${USER}.lock; bspc quit
 
 # close and kill
 super + {_,shift + }w
@@ -133,6 +133,7 @@ super + {Left,Down,Up,Right}
 
 # focus
 # https://github.com/baskerville/sxhkd/issues/73
+# https://github.com/search?q="bspc+node+pointed+-f"&type=Code
 ~button1
     bspc node pointed -f
 

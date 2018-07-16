@@ -49,6 +49,12 @@ Fedora 26 vmware VM 软件包：
 
     dnf install -y $PKG
 
+package | `lemonbar` dep
+------- | --------------
+`procps-ng` | `vmstat` 计算内存
+`xdo` | windows ID
+`xtitle` | 标题栏
+
 https://copr.fedorainfracloud.org/coprs/outman/bspwm/
 
     dnf copr enable -y outman/bspwm
