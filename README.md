@@ -1,4 +1,32 @@
 
+# RockyLinux 8
+
+`~/.config/bspwm/bspwmrc` 文件要有 **可执行** 权限：
+
+[The n00b’s guide to bspwm (with XFCE)](https://bgdawes.github.io/bspwm-xfce-dotfiles/)
+
+> **IMPORTANT: MAKE SURE YOUR `bspwmrc` FILE IS *EXECUTABLE* - THIS IS THE BIGGEST ROOKIE MISTAKE**
+
+```
+# pgrep -af bspwm
+6003 /usr/libexec/gdm-x-session --register-session --run-script bspwm
+6026 bspwm
+6047 /usr/bin/ssh-agent /bin/sh -c exec -l /bin/bash -c "bspwm"
+
+# service gdm restart
+Redirecting to /bin/systemctl restart gdm.service
+
+# pgrep -x bspwm|xargs kill
+
+$ chmod +x ~/.config/bspwm/bspwmrc
+
+$ pgrep -af bspwm
+3016 /usr/libexec/gdm-x-session --register-session --run-script bspwm
+3038 bspwm
+3058 /usr/bin/ssh-agent /bin/sh -c exec -l /bin/bash -c "bspwm"
+3082 /bin/sh /home/i/.config/bspwm/bspwmrc 0                         <--
+```
+
 # Fedora
 
 Fedora 26 vmware VM 软件包：
