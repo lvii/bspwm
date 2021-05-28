@@ -109,7 +109,10 @@ https://wiki.archlinux.org/index.php/Xprofile
 
 cmd | about
 --- | ----
-`xprop` | 获取窗口信息
+`xprop` | 窗口信息
+`xrandr`  | 显示器分辨率
+`xwininfo -root` | 显示器分辨率
+`xwininfo` | 窗口位置坐标
 
 # ibus
 
