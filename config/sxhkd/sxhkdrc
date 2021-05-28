@@ -7,17 +7,19 @@
 # terminal emulator
 super + Return
     gnome-terminal --hide-menubar
-    #konsole --hide-menubar
-    #st -f "Bitstream Vera Sans Mono-11:antialias=1:autohint=0:hinting=1:hintstyle=1"
-    #urxvt256c
-    #urxvt256c -pe tabbed
+    # konsole --hide-menubar
+    # st -f "Bitstream Vera Sans Mono-11:antialias=1:autohint=0:hinting=1:hintstyle=1"
+    # urxvt256c
+    # urxvt256c -pe tabbed
 
 # program launcher
 super + @grave
-    dmenu_run -p ' RUN ' -fn 'Bitstream Vera Sans Mono-13' -sb "#B6E354" -sf "#1B1D1E"
-    ## xrdb -q|awk '/color10:/{bg=$2}; /color0:/{fg=$2}; END { printf("-sb \"%s\" -sf \"%s\"\n", bg,fg) }'
+    rofi -show drun
+    # rofi -modi drun -show
+    # dmenu_run -p ' RUN ' -fn 'Bitstream Vera Sans Mono-13' -sb "#B6E354" -sf "#1B1D1E"
+    # xrdb -q|awk '/color10:/{bg=$2}; /color0:/{fg=$2}; END { printf("-sb \"%s\" -sf \"%s\"\n", bg,fg) }'
 
-# make sxhkd reload its configuration files:
+# reload sxhkd config
 super + Escape
     pkill -USR1 -x sxhkd
 
@@ -27,7 +29,7 @@ super + Escape
 
 # quit bspwm normally
 super + alt + Escape
-    pkill -x panel; rm -f /tmp/xprofile.${USER}.lock; bspc quit
+    pkill -f bspwm/panel; bspc quit
 
 # close and kill
 super + {_,shift + }w

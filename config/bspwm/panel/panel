@@ -7,6 +7,9 @@
 PANEL_HEIGHT=24
 PANEL_FIFO=/tmp/panel-fifo
 PANEL_WM_NAME=bspwm_panel
+
+PANEL_FONT_EN="SourceCodePro-12"
+# PANEL_FONT_CN="Noto Sans CJK JP-12"
 PANEL_FONT_EN="Bitstream Vera Sans Mono-12"
 PANEL_FONT_CN="WenQuanYi Micro Hei Mono-12"
 
@@ -22,23 +25,23 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 [ -e "$PANEL_FIFO" ] && rm -f "$PANEL_FIFO"
 mkfifo "$PANEL_FIFO"
 
+xtitle -sf 'T%s\n' > "$PANEL_FIFO" &
+
 bspc config top_padding "$PANEL_HEIGHT"
 bspc subscribe report > "$PANEL_FIFO" &
-
-xtitle -sf 'T%s\n' > "$PANEL_FIFO" &
 
 ## datetime
 while true
 do
     date '+S%F %R'
-    sleep 60s || break
+    sleep 10s || break
 done > "$PANEL_FIFO" &
 
 ## loadavg
 while true
 do
     echo "L$(cut -d " " -f -3 /proc/loadavg)"
-    sleep 5 || break
+    sleep 10 || break
 done > "$PANEL_FIFO" &
 
 ## memory
@@ -48,12 +51,16 @@ do
                    /used memory/  { mused=$1  };
                    END { printf("M%d\n", (mused/mtotal)*100) }'           # used memory
                    # END { printf("M%d\n", (100-((mused/mtotal)*100))) }' # Free memory
-    sleep 5 || break
+    sleep 10 || break
 done > "$PANEL_FIFO" &
 
 source panel_colors
 
+# panel_bar < "$PANEL_FIFO" | lemonbar -a 32 -u 2 -n "$PANEL_WM_NAME" -g x"${PANEL_HEIGHT}" -f "$PANEL_FONT_EN" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" | sh &
+
 panel_bar < "$PANEL_FIFO" | lemonbar -a 32 -u 2 -n "$PANEL_WM_NAME" -g x"${PANEL_HEIGHT}" -f "$PANEL_FONT_EN" -f "$PANEL_FONT_CN" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" | sh &
+
+# panel_bar < "$PANEL_FIFO" | lemonbar -a 32 -u 2 -n "$PANEL_WM_NAME" -g x"${PANEL_HEIGHT}" -F "$COLOR_DEFAULT_FG" -B "$COLOR_DEFAULT_BG" | sh &
 
 wid=$(xdo id -m -a "$PANEL_WM_NAME")
 xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"

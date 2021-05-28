@@ -1,7 +1,7 @@
 
 # RockyLinux 8
 
-`~/.config/bspwm/bspwmrc` 文件要有 **可执行** 权限：
+**NOTE**: `~/.config/bspwm/bspwmrc` 文件要有 **可执行** 权限：
 
 [The n00b’s guide to bspwm (with XFCE)](https://bgdawes.github.io/bspwm-xfce-dotfiles/)
 
@@ -88,7 +88,9 @@ https://copr.fedorainfracloud.org/coprs/outman/bspwm/
     dnf copr enable -y outman/bspwm
     dnf install -y bspwm sxhkd xdo xtitle lemonbar-xft compton
 
-# xinitrc
+# Xorg
+
+## xinitrc
 
 尽量存放和 X11 相关配置
 
@@ -102,6 +104,91 @@ https://wiki.archlinux.org/index.php/Xprofile
 
     # rpm -qi xorg-x11-xinit-session|grep '^Summary'
     Summary     : Display manager support for ~/.xsession and ~/.Xclients
+
+## X11
+
+cmd | about
+--- | ----
+`xprop` | 获取窗口信息
+
+# ibus
+
+[Getting Ibus working with tiling window manager](https://unix.stackexchange.com/questions/277692/getting-ibus-working-with-tiling-window-manager)
+
+    $ ibus engine
+    (process:23349): IBUS-CRITICAL **: 15:17:44.821: ibus_bus_get_global_engine: assertion 'IBUS_IS_BUS (bus)' failed
+    No engine is set.
+
+    $ pgrep -af ibus
+    1318 ibus-daemon --xim --panel disable
+    1321 /usr/libexec/ibus-dconf
+    1323 /usr/libexec/ibus-x11 --kill-daemon
+    1329 /usr/libexec/ibus-portal
+    1420 /usr/libexec/ibus-engine-simple
+
+    $ ibus-setup
+    Gtk-Message: 15:18:01.324: GtkDialog mapped without a transient parent. This is discouraged.
+    Gtk-Message: 15:18:04.431: GtkDialog mapped without a transient parent. This is discouraged.
+
+    $ ibus engine
+    libpinyin
+
+    $ echo $GTK_IM_MODULE
+    ibus
+
+    $ pgrep -af ibus
+    1318 ibus-daemon --xim --panel disable
+    1321 /usr/libexec/ibus-dconf
+    1323 /usr/libexec/ibus-x11 --kill-daemon
+    1329 /usr/libexec/ibus-portal
+    1420 /usr/libexec/ibus-engine-simple
+    23405 ibus-daemon --xim
+    23410 /usr/libexec/ibus-dconf
+    23412 /usr/libexec/ibus-ui-gtk3
+    23413 /usr/libexec/ibus-extension-gtk3
+    23415 /usr/libexec/ibus-x11 --kill-daemon
+    23421 /usr/libexec/ibus-portal
+    23434 /usr/libexec/ibus-engine-libpinyin --ibus
+
+    $ pgrep -af ibus -u i
+    23405 ibus-daemon --xim
+    23410 /usr/libexec/ibus-dconf
+    23412 /usr/libexec/ibus-ui-gtk3
+    23413 /usr/libexec/ibus-extension-gtk3
+    23415 /usr/libexec/ibus-x11 --kill-daemon
+    23421 /usr/libexec/ibus-portal
+    23434 /usr/libexec/ibus-engine-libpinyin --ibus
+    23507 /usr/libexec/ibus-engine-simple
+
+
+# tray
+
+## stalonetray
+
+<https://src.fedoraproject.org/rpms/stalonetray>
+
+<https://dl.fedoraproject.org/pub/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/s/>
+
+    --geometry geometry_spec, geometry geometry_spec
+    Set tray`s initial geometry to geometry_spec, specified in standard X notation: widthxheight[+x[+y]],
+    where width and height are specified in icon slot multiples. Default value: 1x1+0-0.
+
+其中 width 和 height 并不是像素，而是图标槽数量。
+
+    stalonetray --geometry 100x1+0-0 --icon-size=16 --kludges=force_icons_size --skip-taskbar --sticky --window-strut bottom --transparent --tint-color black --tint-level 180 &
+
+[elementaryOS 系统托盘解决方案 2013-11-11](https://www.bbsmax.com/A/xl569j7YJr/)
+
+其 `+` 表示左边与上边 `-` 表示下边与右边
+
+[配置及运行 stalonetray 2021-04-28](https://www.cnblogs.com/k4nz/p/14713418.html)
+
+
+<https://github.com/derrickcope/config/blob/master/bspwm/bspwmrc>
+
+    bspc rule -a stalonetray state=floating rectangle=5x5+3000+1
+    bspc rule -a XTerm:* monitor=focused state=floating focus=on follow=on rectangle=300x20+500+0
+
 
 # font
 
@@ -117,6 +204,51 @@ https://wiki.archlinux.org/index.php/Xprofile
     !Xft.lcdfilter                          : lcddefault
     !Xft.dpi                                : 96
     !Xft.embolden                           : true
+
+<https://github.com/addy-dclxvi/almighty-dotfiles/blob/master/.config/bspwm/bspwmrc>
+
+    # Load bitmap fonts
+    xset fp+ ~/.fonts/misc &
+
+## Bitstream Vera Sans Mono
+
+<https://src.fedoraproject.org/rpms/bitstream-vera-fonts>
+
+<https://dl.fedoraproject.org/pub/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/b/>
+
+<https://wiki.archlinux.org/title/Fonts>
+
+    # yum install https://dl.fedoraproject.org/pub/fedora/linux/development/rawhide/Everything/x86_64/os/Packages/b/bitstream-vera-sans-mono-fonts-1.10-44.fc35.noarch.rpm
+    Last metadata expiration check: 2:45:08 ago on Wed 26 May 2021 10:59:52 AM CST.
+    bitstream-vera-sans-mono-fonts-1.10-44.fc35.noarch.rpm                69 kB/s |  99 kB     00:01
+    Dependencies resolved.
+    ================================================================================================
+     Package                             Architecture       Version          Repository        Size
+    ================================================================================================
+    Installing:
+     bitstream-vera-sans-mono-fonts      noarch             1.10-44.fc35     @commandline      99 k
+
+    Transaction Summary
+    ================================================================================================
+    Install  1 Package
+
+    Total size: 99 k
+    Installed size: 221 k
+
+    $ rpm -ql bitstream-vera-sans-mono-fonts
+    /etc/fonts/conf.d/55-bitstream-vera-sans-mono-fonts.conf
+    /usr/share/doc/bitstream-vera-sans-mono-fonts
+    /usr/share/doc/bitstream-vera-sans-mono-fonts/README.TXT
+    /usr/share/doc/bitstream-vera-sans-mono-fonts/RELEASENOTES.TXT
+    /usr/share/fontconfig/conf.avail/55-bitstream-vera-sans-mono-fonts.conf
+    /usr/share/fonts/bitstream-vera-sans-mono-fonts
+    /usr/share/fonts/bitstream-vera-sans-mono-fonts/VeraMoBI.ttf
+    /usr/share/fonts/bitstream-vera-sans-mono-fonts/VeraMoBd.ttf
+    /usr/share/fonts/bitstream-vera-sans-mono-fonts/VeraMoIt.ttf
+    /usr/share/fonts/bitstream-vera-sans-mono-fonts/VeraMono.ttf
+    /usr/share/licenses/bitstream-vera-sans-mono-fonts
+    /usr/share/licenses/bitstream-vera-sans-mono-fonts/COPYRIGHT.TXT
+    /usr/share/metainfo/org.fedoraproject.bitstream-vera-sans-mono-fonts.metainfo.xml
 
 禁止 `"DejaVu Sans Mono` 替换 `Bitstream Vera Sans Mono` 字体：
 
@@ -210,6 +342,26 @@ https://wiki.archlinux.org/index.php/Xprofile
     DejaVuSansMono-Bold.ttf: "DejaVu Sans Mono" "Bold"
     DejaVuSansMono-Oblique.ttf: "DejaVu Sans Mono" "Oblique"
     NimbusMonoPS-Regular.otf: "Nimbus Mono PS" "Regular"
+
+## Google Noto Sans CJK JP
+
+    $ rpm -ql google-noto-sans-cjk-ttc-fonts
+    /etc/fonts/conf.d/65-0-google-noto-sans-cjk-ttc.conf
+    /usr/share/fontconfig/conf.avail/65-0-google-noto-sans-cjk-ttc.conf
+    /usr/share/fonts/google-noto-cjk
+    /usr/share/fonts/google-noto-cjk/NotoSansCJK-Black.ttc
+    /usr/share/fonts/google-noto-cjk/NotoSansCJK-Bold.ttc
+    /usr/share/fonts/google-noto-cjk/NotoSansCJK-DemiLight.ttc
+    /usr/share/fonts/google-noto-cjk/NotoSansCJK-Light.ttc
+    /usr/share/fonts/google-noto-cjk/NotoSansCJK-Medium.ttc
+    /usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc
+    /usr/share/fonts/google-noto-cjk/NotoSansCJK-Thin.ttc
+
+    $ fc-match sans -s|grep -i cjk
+    NotoSansCJK-Regular.ttc: "Noto Sans CJK JP" "Regular"
+
+    (add-to-list 'default-frame-alist '(font . "Bitstream Vera Sans Mono-11:antialias=1"))
+    (set-fontset-font "fontset-default" 'unicode "Noto Sans CJK JP-13.5")
 
 # gnome-terminal
 
@@ -394,9 +546,58 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
 `bspc node @/2 -g hidden` | 隐藏节点
 `bspc node -s @/2` | 互换节点
 
+## rule
+
+格式 `bspc rule -a class:instance` 通过 `xprop` 获取窗口 `class:instance` 属性：
+
+    $ xprop|egrep '^WM_(CLASS|NAME)'
+    WM_CLASS(STRING) = "nautilus", "Nautilus"
+    WM_NAME(STRING) = "Home"
+
+通过 `bspc rule -l` 检查是否存在 **冲突** 规则：
+
+    $ bspc rule -l
+    Emacs:*:* => state=tiled
+    Firefox:*:* => private=on
+    Chromium:*:* => private=on
+    Chromium:*:* => private=on
+    net-sourceforge-jnlp-runtime-Boot:*:* => state=floating
+    java-lang-Thread:*:* => state=floating
+    sun-awt-X11-XFramePeer:*:* => state=floating
+    stalonetray:*:* => state=floating rectangle=5x5+3000+1
+
+    $ bspc rule -r Chromium
+
+    $ bspc rule -l
+    Emacs:*:* => state=tiled
+    Firefox:*:* => private=on
+    net-sourceforge-jnlp-runtime-Boot:*:* => state=floating
+    java-lang-Thread:*:* => state=floating
+    sun-awt-X11-XFramePeer:*:* => state=floating
+    stalonetray:*:* => state=floating rectangle=5x5+3000+1
+
 ## feature
 
+### external_rules
+
+<https://github.com/baskerville/bspwm/tree/master/examples/external_rules>
+
+### overwriting_borders
+
+<https://github.com/baskerville/bspwm/blob/master/examples/overlapping_borders/bspwmrc>
+
+    BW=3
+    bspc config border_width $BW
+    bspc config window_gap -$BW
+    for side in top right bottom left ; dobspc config ${side}_padding $BW done
+
+
+
+
+
 ### receptacle
+
+<https://github.com/baskerville/bspwm/tree/master/examples/receptacles>
 
 [Is it possible to create a startup workspace? #371](https://github.com/baskerville/bspwm/issues/371)
 
@@ -427,7 +628,51 @@ TODO: `urxvt` 通过 `tmux` 自动启动的程序退出会导致 `tmux` 和 `urx
 
     dnf install -y bitstream-vera-sans-mono-fonts wqy-microhei-fonts procps-ng
 
+**NOTE**: `Noto Sans CJK JP-12` 字体会导致 lemonbar 对齐有问题
+
+## config
+
+<https://github.com/baskerville/bspwm/tree/master/examples/panel>
+
+[[lemonbar] Workspaces indicator stuck after recent update #700](https://github.com/baskerville/bspwm/issues/700)
+
+    while [ $(pgrep -cx panel.sh) -gt 1 ] ; do
+        pkill -ox -9 panel.sh
+    done
+
+[Clock stuck on lemonbar #14](https://github.com/baskerville/sutils/issues/14)
+
+<https://github.com/sguilfoyle/dotfiles-10/tree/master/bspwm/.config/bspwm/panel>
+
+    # Kill the panel if it is currently running
+    if [ $(pgrep -cx lemonbar) -gt 1 ] ; then
+        printf "%s\n" "The panel is already running."
+        while [[ $(pgrep -c "lemonbar") != 0 ]]
+        do
+            pkill -n -9 "lemonbar"
+        done
+    fi
+    trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+    # Store pid to kill this process later(toggle gaps/panel)
+    echo $$ > /tmp/panel-pid
+
+    # Get the number of monitors we will be making bars for
+    num_mon=$(bspc query -M)
+
+<https://www.reddit.com/r/unixporn/comments/h8fvrm/bspwm_switched_to_lemonbar/>
+
+<https://github.com/b3nj5m1n/dotfiles/blob/master/scripts/lemonblocks/bspwm.sh>
+
+<https://github.com/replaceits/Simple-Lemonbar>
+
+<https://github.com/jordansissel/xdotool>
+
 # composite manager
+
+## picom
+
+<https://github.com/ChocolateBread799/Awespwm/blob/main/.config/picom/picom.conf>
 
 ## compton
 
@@ -447,6 +692,22 @@ TODO: `urxvt` 通过 `tmux` 自动启动的程序退出会导致 `tmux` 和 `urx
 `-m` | `--menu-opacity` | 菜单透明，默认 **禁用**
 `-f` | `--fading` | 启用淡出效果
 `-D` | `--fade-delta` | 淡出效果时间，默认 `10ms`
+
+
+# wallpaper
+
+`xsetroot`
+
+    xsetroot -solid "#ffffff"
+
+    xsetroot -mod 20 20 -bg "$(xrdb -query|awk '/\*color0/ {print $2}')" -fg "$(xrdb -query|awk '/\*color8/ {print $2}')"
+    xsetroot -mod 9 2 -bg "$(xrdb -query|awk '/\*color0/ {print $2}')" -fg "$(xrdb -query|awk '/\*color8/ {print $2}')"
+
+<https://github.com/dkeg/bitmap-walls>
+
+<https://github.com/himdel/hsetroot>
+
+<https://github.com/l3ib/nitrogen>
 
 壁纸预览：
 
@@ -468,3 +729,79 @@ https://wiki.archlinux.org/index.php/Compton
 https://github.com/yurisuika/Dotfiles/blob/master/.config/compton.conf
 
 https://github.com/neynt/dotfiles/blob/master/compton.conf
+
+
+# java
+
+`javaws.itweb` 打开 JViewer **白屏** 问题：
+
+<https://wiki.archlinux.org/title/Bspwm#Problems_with_Java_applications>
+
+    export _JAVA_AWT_WM_NONREPARENTING=1
+
+# paste
+
+## parcellite
+
+<https://github.com/rickyrockrat/parcellite>
+
+<https://src.fedoraproject.org/rpms/parcellite>
+
+# collection
+
+    xrandr --output DP-4 --mode 1920x1080 --rate 164.97 &
+
+<https://github.com/TheZoq2/dotfiles/blob/master/.config/bspwm/bspwmrc>
+
+    # Move tint2 behind fullscreen windows
+    xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" $(xdo id -n tint2)
+
+<https://github.com/baskerville/bspwm/issues/700>
+
+    if [ "$num_mon" -gt "1" ]; then
+        TRAY_GEOM="1x1-2810"
+    else
+        TRAY_GEOM="1x1-250"
+    fi
+
+    stalonetray --geometry $TRAY_GEOM -i $PANEL_HEIGHT -bg "$COLOR_DEFAULT_BG" --grow-gravity NE --kludges force_icons_size &
+
+    wid=$(xdo id -a stalonetray)
+    tries_left=20
+
+    while [ -z "$wid" -a "$tries_left" -gt 0 ] ; do
+        sleep 0.05
+        wid=$(xdo id -a stalonetray)
+        tries_left=$((tries_left -1))
+    done
+    [ -n "$wid" ] && xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$wid"
+
+<https://github.com/baskerville/bspwm/issues/1074>
+
+    bspc rule -a '*:libreofficedev' state=tiled
+    bspc rule -a "Genymotion Player" desktop='^5' privatee=on
+
+    bspc rule -a net-sourceforge-jnlp-runtime-Boot state=floating
+    bspc rule -a java-lang-Thread state=floating
+    bspc rule -a sun-awt-X11-XFramePeer state=floating
+    bspc rule -a Sxiv state=floating center=true
+
+    # polybar hidden when fullscreen for vlc, youtube, mpv ...
+    # find out the name of your monitor with xrandr
+    xdo below -t $(xdo id -n root) $(xdo id -a polybar-left_DVI-D-0)
+    xdo below -t $(xdo id -n root) $(xdo id -a polybar-right_DVI-D-1)
+
+<https://github.com/spcmd/dotfiles/blob/master/bspwm/.config/bspwm/bspwmrc>
+
+    # start these programs only once
+    if [ ! -e /tmp/bspwm_autorun ]; then
+        urxvtc &
+        urxvtc -name ranger -e ranger &
+        #urxvtc -name rtorrent -e rtorrent &
+        #urxvtc -name newsbeuter -e newsbeuter &
+        geary-light-theme.sh &
+        sleep 30s && ~/bin/chromium-privoxy.sh &
+        echo "false" > /tmp/bspwm_autorun
+        sleep 4m && tvmusor &
+    fi
+
