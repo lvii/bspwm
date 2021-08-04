@@ -90,6 +90,11 @@ https://copr.fedorainfracloud.org/coprs/outman/bspwm/
 
 # Xorg
 
+`xautolock`
+
+    xautolock -time 60 -locker "/home/gregf/dev/active/i3lock-fancy-multimonitor/lock -e -p" -secure &
+
+
 ## xinitrc
 
 尽量存放和 X11 相关配置
@@ -110,7 +115,7 @@ https://wiki.archlinux.org/index.php/Xprofile
 cmd | about
 --- | ----
 `xprop` | 窗口信息
-`xrandr`  | 显示器分辨率
+`xrandr`  | 显示器分辨率2
 `xwininfo -root` | 显示器分辨率
 `xwininfo` | 窗口位置坐标
 
@@ -192,6 +197,9 @@ cmd | about
     bspc rule -a stalonetray state=floating rectangle=5x5+3000+1
     bspc rule -a XTerm:* monitor=focused state=floating focus=on follow=on rectangle=300x20+500+0
 
+# color
+
+<https://github.com/arcticicestudio/nord>
 
 # font
 
@@ -402,6 +410,8 @@ cmd | about
     gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ background-color 'rgb(44,44,44)'
     gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ background-color 'rgb(36,36,36)'
 
+    gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ foreground-color 'rgb(255,255,255)'
+
 背景透明：
 
     gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${_uuid}/ use-transparent-background true
@@ -420,6 +430,11 @@ cmd | about
     'F1'
 
     gsettings set org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/ help ""
+
+`Ctrl - Tab` 切换 Tab 标签页：
+
+    gsettings set org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/ next-tab '<Primary>Tab'
+    gsettings set org.gnome.Terminal.Legacy.Keybindings:/org/gnome/terminal/legacy/keybindings/ prev-tab '<Primary><Shift>Tab'
 
 递归遍历所有配置项：
 
@@ -492,6 +507,18 @@ https://heartbeats.jp/hbblog/2018/01/archlinuxpc.html
 # gnome-screenshot
 
     gnome-screenshot -a -e shadow -f img.png
+
+# maim
+
+<https://github.com/naelstrof/maim>
+
+<https://github.com/siduck76/bspwm-dotfiles/blob/main/sxhkdrc>
+
+    maim "/home/$USER/Pictures/$(date)"
+    maim --select "/home/$USER/Pictures/$(date)"
+    maim | xclip -selection clipboard -t image/png
+    maim --select | xclip -selection clipboard -t image/png
+
 
 # urxvt
 
@@ -579,11 +606,28 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
     sun-awt-X11-XFramePeer:*:* => state=floating
     stalonetray:*:* => state=floating rectangle=5x5+3000+1
 
+    $ bspc wm -d | jq '.monitors[].rectangle'
+    {
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1080
+    }
+
 ## feature
 
 ### external_rules
 
 <https://github.com/baskerville/bspwm/tree/master/examples/external_rules>
+
+<https://github.com/silverbluep/dotfiles/blob/master/bspwm/external_rules.sh>
+
+    # Set XDG_CURRENT_DESKTOP for mimetypes
+    export XDG_CURRENT_DESKTOP="bspwm"
+
+    name="$(xwininfo -id "${wid}" | awk 'NR==2' | sed 's|.*"\(.*\)"$|\1|')"
+
+
 
 ### overwriting_borders
 
@@ -593,10 +637,6 @@ https://github.com/baskerville/bspwm/commits/master/examples/sxhkdrc
     bspc config border_width $BW
     bspc config window_gap -$BW
     for side in top right bottom left ; dobspc config ${side}_padding $BW done
-
-
-
-
 
 ### receptacle
 
@@ -742,6 +782,11 @@ https://github.com/neynt/dotfiles/blob/master/compton.conf
 
     export _JAVA_AWT_WM_NONREPARENTING=1
 
+<https://github.com/rawsh/dotfiles/blob/master/bspwm/.config/bspwm/bspwmrc>
+
+    export _JAVA_AWT_WM_NONREPARENTING=1
+    export _JAVA_OPTIONS='-Dsun.java2d.opengl=true'
+
 # paste
 
 ## parcellite
@@ -749,6 +794,15 @@ https://github.com/neynt/dotfiles/blob/master/compton.conf
 <https://github.com/rickyrockrat/parcellite>
 
 <https://src.fedoraproject.org/rpms/parcellite>
+
+# reference
+
+`imagemagick` + `hsetroot` 像素桌面：
+
+<https://github.com/okubax/dotfiles/tree/master>
+
+<https://github.com/xero/dotfiles/blob/master/bin/bin/hashwall>
+
 
 # collection
 
@@ -758,6 +812,8 @@ https://github.com/neynt/dotfiles/blob/master/compton.conf
 
     # Move tint2 behind fullscreen windows
     xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" $(xdo id -n tint2)
+
+    xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" $(xdo id -n panel)
 
 <https://github.com/baskerville/bspwm/issues/700>
 
@@ -808,3 +864,41 @@ https://github.com/neynt/dotfiles/blob/master/compton.conf
         sleep 4m && tvmusor &
     fi
 
+<https://github.com/rawsh/dotfiles/blob/master/bspwm/.config/bspwm/bspwmrc>
+
+    (cd /home/robert/.config/bspwm/ && exec ./blurdesktop.sh &)
+
+    xset s off &
+    xset dpms 36000 36000 36000 &
+    xsetroot -xcf /usr/share/icons/Adwaita/cursors/left_ptr 24 &
+    xinput set-prop 9 135 1.600000, 0.000000, 0.000000, 0.000000, 1.600000, 0.000000, 0.000000, 0.000000, 1.000000 &
+
+    xrandr --output HDMI-0 --primary --auto --output DVI-I-0 --auto --right-of HDMI-0 &
+
+    compton --backend glx --unredir-if-possible &
+
+    stalonetray -t --grow-gravity E --geometry 1x1+2472-3 --icon-gravity E -s 26 -i 16 --scrollbars horizontal --max-geometry 10x1 --kludges force_icons_size &
+
+<https://github.com/silverbluep/dotfiles/blob/master/bspwm/bspwmrc>
+
+    feh --no-fehbg --bg-scale --no-xinerama "${XDG_CACHE_HOME}/xpaper/last_wallpaper"
+
+    "${XDG_CACHE_HOME}/xpaper/last_wallpaper"
+    "${XDG_CONFIG_HOME}/bspwm/scripts/layout.sh"
+
+    # Autostart programs
+    dex --autostart --environment bspwm
+
+<https://github.com/silverbluep/dotfiles/blob/master/bspwm/scripts/layout.sh>
+
+     _primary="$(bspc query --monitors --monitor primary)"
+    i=1
+    for monitor in $(bspc query --monitors); do
+      if [ "${monitor}" = "${_primary}" ] ; then
+        bspc monitor "${monitor}" --reset-desktops \
+          $ws1 $ws2 $ws3 $ws4 $ws5 $ws6 $ws7 $ws8 $ws9 $ws0
+      else
+        bspc monitor "${monitor}" --reset-desktops "${i}"
+        i=$((i + 1))
+      fi
+    done ;;
